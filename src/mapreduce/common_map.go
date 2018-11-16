@@ -34,6 +34,7 @@ func doMap(
 	var ens = make([]*json.Encoder, nReduce)
 
 	for i:=0; i<nReduce; i++ {
+		log.Printf("os.Creat %s",reduceName(jobName, mapTaskNumber, i) )
 		if f, err := os.Create(reduceName(jobName, mapTaskNumber, i)); err != nil {
 			log.Printf("create file %s failed", reduceName(jobName, mapTaskNumber, i))
 			log.Panic(err)

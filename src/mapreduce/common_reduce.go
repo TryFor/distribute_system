@@ -27,7 +27,6 @@ func doReduce(
 	maps := make(map[string]([]string))
 	for i:=0; i<nMap; i++ {
 		fileName := reduceName(jobName,i,reduceTaskNumber)
-		log.Printf("fileName is %s ", fileName)
 		file, err := os.Open(fileName)
 		if (err != nil) {
 			log.Fatal("Unable to read from: ", file)
