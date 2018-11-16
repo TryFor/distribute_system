@@ -3,7 +3,6 @@ package mapreduce
 import (
 	"fmt"
 	"sync"
-	"log"
 )
 
 //
@@ -43,11 +42,14 @@ func schedule(jobName string, mapFiles []string, nReduce int, phase jobPhase, re
 
 		go func() {
 			defer wg.Done()
-			worker := <- registerChan
-			if (call(worker, "Worker.DoTask", &task, nil) != true) {
-				log.Fatal("rpg call err")
+			for {
+				worker := <- registerChan
+				if (call(worker, "Worker.DoTask", &task, nil)) {
+					go func() {registerChan <- worker}()
+					break
+				}
 			}
-			go func() {registerChan <- worker}()
+
 		}()
 		wg.Wait()
 
